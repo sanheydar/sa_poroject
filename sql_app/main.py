@@ -91,8 +91,6 @@ def del_student(student_id: int, db: Session = Depends(get_db)):
 
 
 
-# test
-
 #professor
 
 @app.post("/Createprofessor/", response_model=schemas.Professor)
