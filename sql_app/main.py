@@ -1,12 +1,11 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-#se khat paeen baray rafe moshkele unknown parent packaje mibashad
 import sys
 from pathlib import Path
 sys.path[0] = str(Path(sys.path[0]).parent)
 
-###
+
 
 from sql_app import crud, models,schemas
 
@@ -32,7 +31,7 @@ def create_student(student: schemas.Student, db: Session = Depends(get_db)):
     db_student = crud.get_student(db, student_id=student.STID)
     print(db_student)
     if db_student:
-        raise HTTPException(status_code=400, detail="student already registered")
+        raise HTTPException(status_code=400, detail="دانشجو قبلا ثبت شده")
     schemas.validate_student(student)
     error_relation = {}
     SCourseids = student.SCourseids.split(",")
@@ -98,7 +97,7 @@ def create_professor(professor: schemas.Professor, db: Session = Depends(get_db)
     db_professor = crud.get_professor(db, Professor_id=professor.LID)
     print(db_professor)
     if db_professor:
-        raise HTTPException(status_code=400, detail="Professor already registered")
+        raise HTTPException(status_code=400, detail="استاد قبلا ثبت شده")
     schemas.validate_professor(professor)
     LCourseIDs = professor.LCourseIDs.split(",")
     error_relation = {}
@@ -121,8 +120,8 @@ def read_professor(professor_id: int, db: Session = Depends(get_db)):
 
 
 @app.put("/prefessor/{prefessor_id}", response_model=schemas.Professor)
-def update_prefessor(prefessor_id: str, prefessor: schemas.Professor, db: Session = Depends(get_db)):
-    db_prefessor = crud.update_prefessor(db, prefessor_id, prefessor)
+def update_prefessor(prefessor_id:str, prefessor:schemas.Professor, db:Session =Depends(get_db)):
+    db_prefessor = crud.update_prefessor(db, prefessor_id,prefessor)
     if db_prefessor is None:
         raise HTTPException(status_code=404, detail="prefessor not found")
     schemas.validate_professor(prefessor)
@@ -138,12 +137,12 @@ def update_prefessor(prefessor_id: str, prefessor: schemas.Professor, db: Sessio
 
 
 
-@app.get("/Delprofessor/{professor_id}", response_model=schemas.Professor)
+@app.delete("/Delprofessor/{professor_id}", response_model=schemas.Professor)
 def del_professor(professor_id: int, db: Session = Depends(get_db)):
     db_professor = crud.get_professor(db, Professor_id=professor_id)
     if db_professor is None:
         raise HTTPException(status_code=404, detail="professor not found")
-    crud.removeprefessor(db , Professor_id=professor_id)
+    crud.removeprofessor(db , Professor_id=professor_id)
     return db_professor
     
 
@@ -152,23 +151,21 @@ def del_professor(professor_id: int, db: Session = Depends(get_db)):
 #course
 
 @app.post("/Createcourse/", response_model=schemas.Course)
-def create_course(course: schemas.Course, db: Session = Depends(get_db)):
+def create_course(course:schemas.Course,db:Session=Depends(get_db)):
     db_course = crud.get_course(db, Course_id=course.CID)
     print(db_course)
     if db_course:
-        raise HTTPException(status_code=400, detail="Course already registered")
+        raise HTTPException(status_code=400, detail="درس قبلا ثبت شده")
     schemas.validate_course(course)
     return crud.create_cource(db=db, course=course)
 
 
 @app.get("/Getcourse/{course_id}", response_model=schemas.Course)
-def read_course(course_id: int, db: Session = Depends(get_db)):
+def read_course(course_id:int,db:Session=Depends(get_db)):
     db_course = crud.get_course(db, Course_id=course_id)
     if db_course is None:
         raise HTTPException(status_code=404, detail="Course not found")
     return db_course
-
-
 
 
 @app.put("/course/{course_id}", response_model=schemas.Course)
@@ -180,7 +177,7 @@ def update_course(course_id: str, course: schemas.Course, db: Session = Depends(
 
 
 
-@app.get("/Delcourse/{course_id}", response_model=schemas.Course)
+@app.delete("/Delcourse/{course_id}", response_model=schemas.Course)
 def del_course(course_id: int, db: Session = Depends(get_db)):
     db_course = crud.get_course(db, Course_id=course_id)
     if db_course is None:
