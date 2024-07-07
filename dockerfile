@@ -2,10 +2,10 @@ FROM python:3.12.3
 
 WORKDIR /var/www
 
-COPY /course/requirements.txt .
+COPY ./requirements.txt/var/www
 
 RUN pip install -r requirements.txt
 
-COPY  course/var/www/
+COPY  ./var/www/
 
 CMD ["fastapi", "run", "main.py"]
