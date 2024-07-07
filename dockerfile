@@ -6,6 +6,6 @@ COPY ./requirements.txt/var/www
 
 RUN pip install -r requirements.txt
 
-COPY  ./var/www/
+COPY  ./var/www
 
 CMD ["fastapi", "run", "main.py"]
