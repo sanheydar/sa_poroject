@@ -64,7 +64,7 @@ from python=
 
 # فایل docker.py:
 
-<img scr="https://github.com/sanheydar/sa_poroject/blob/main/eight.png?raw=true" />
+<img src="https://github.com/sanheydar/sa_poroject/blob/main/eight.png?raw=true" />
 
 
  workdir
