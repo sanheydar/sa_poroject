@@ -24,6 +24,7 @@
 
 <img src="https://github.com/sanheydar/sa_poroject/blob/main/four.png?raw=true" />
 <img src="https://github.com/sanheydar/sa_poroject/blob/main/five.png?raw=true" />
+<img src="https://github.com/sanheydar/sa_poroject/blob/main/six.png?raw=true" />
 
 بخش اول شامل ایمپورت‌های مورد نیاز برای تایپ‌ها، ریگولار اکسپرشن‌ها، مدیریت خطاها با FastAPI و استفاده از Pydantic برای تعریف مدل‌ها است.
 کلاس  Studentمدل مشخصات یک دانشجو را شامل می‌شود.
