@@ -151,26 +151,29 @@ def del_professor(professor_id: int, db: Session = Depends(get_db)):
 #course
 
 @app.post("/Createcourse/", response_model=schemas.Course)
-def create_course(course:schemas.Course,db:Session=Depends(get_db)):
+def create_course(course: schemas.Course, db: Session = Depends(get_db)):
     db_course = crud.get_course(db, Course_id=course.CID)
     print(db_course)
     if db_course:
-        raise HTTPException(status_code=400, detail="درس قبلا ثبت شده")
+        raise HTTPException(status_code=400, detail="Course already registered")
     schemas.validate_course(course)
     return crud.create_cource(db=db, course=course)
 
 
 @app.get("/Getcourse/{course_id}", response_model=schemas.Course)
-def read_course(course_id:int,db:Session=Depends(get_db)):
+def read_course(course_id: int, db: Session = Depends(get_db)):
     db_course = crud.get_course(db, Course_id=course_id)
     if db_course is None:
         raise HTTPException(status_code=404, detail="Course not found")
     return db_course
 
 
-@app.put("/course/{course_id}", response_model=schemas.Course)
-def update_course(course_id: str, course: schemas.Course, db: Session = Depends(get_db)):
-    db_course = crud.update_course(db, course_id, course)
+
+
+@app.put("/course/{courseid}", response_model=schemas.Course)
+def update_course(courseid: str, course: schemas.Course, db: Session = Depends(get_db)):
+    schemas.validate_course(course)
+    db_course = crud.update_course(db, courseid, course)
     if db_course is None:
         raise HTTPException(status_code=404, detail="course not found")
     return db_course
@@ -184,3 +187,4 @@ def del_course(course_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Course not found")
     crud.removecourse(db, Course_id=course_id)
     return db_course
+
